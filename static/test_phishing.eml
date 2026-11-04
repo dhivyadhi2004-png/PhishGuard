@@ -1,0 +1,12 @@
+From: security-alert@example.com
+To: user@example.com
+Subject: URGENT - Your Account Will Be Suspended
+
+URGENT! Your account has been suspended.
+
+You must verify your account immediately.
+Click the link below and enter your password to restore access.
+
+http://trusted.example@192.0.2.10/login
+
+Failure to verify your account will result in permanent suspension.

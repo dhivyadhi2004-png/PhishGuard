@@ -1,0 +1,13 @@
+From: support@example.com
+To: user@gmail.com
+Subject: Account Verification Required
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Dear Customer,
+
+Your account will be suspended.
+Please verify your account immediately by clicking the link below.
+Click here: http://suspicious-site.com/login
+Thank you,
+Support Team

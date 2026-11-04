@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard | Email Security Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🛡 PhishGuard</h2>
+    <p class="subtitle">EMAIL SECURITY</p>
+
+    <nav>
+        <a href="#" class="active">▦ Dashboard</a>
+        <a href="#analyzer">✉ Email Analyzer</a>
+        <a href="#history">◷ Analysis History</a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <span class="status-dot"></span> Detection Engine Ready
+    </div>
+</div>
+
+<main class="main-content">
+
+    <header>
+        <div>
+            <h1>Security Dashboard</h1>
+            <p>Monitor and analyze suspicious emails.</p>
+        </div>
+        <div class="user-label">SECURITY ANALYST</div>
+    </header>
+
+    <!-- Dashboard Statistics -->
+    <section class="stats">
+
+        <div class="stat-card">
+            <p>Total Emails Analyzed</p>
+            <h2 id="totalEmails">0</h2>
+            <span>All analyzed emails</span>
+        </div>
+
+        <div class="stat-card">
+            <p>Phishing Detected</p>
+            <h2 id="phishingEmails">0</h2>
+            <span>High-risk emails</span>
+        </div>
+
+        <div class="stat-card">
+            <p>Suspicious Emails</p>
+            <h2 id="suspiciousEmails">0</h2>
+            <span>Require investigation</span>
+        </div>
+
+        <div class="stat-card">
+            <p>Safe Emails</p>
+            <h2 id="safeEmails">0</h2>
+            <span>Low-risk emails</span>
+        </div>
+
+    </section>
+
+    <!-- Threat Analytics Dashboard -->
+    <section class="analytics-section">
+
+        <div class="section-heading">
+            <h2>Threat Analytics</h2>
+            <p>Understand the security status of your analyzed emails.</p>
+        </div>
+
+        <div class="analytics-grid">
+
+            <!-- Threat Distribution -->
+            <div class="analytics-card">
+                <div class="analytics-card-heading">
+                    <div>
+                        <h3>Threat Distribution</h3>
+                        <p>Emails grouped by security verdict</p>
+                    </div>
+                    <span class="analytics-icon">◈</span>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>High Risk</span>
+                        <span id="highRiskCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="highRiskBar" class="chart-fill high-fill"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Suspicious</span>
+                        <span id="suspiciousCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="suspiciousBar" class="chart-fill suspicious-fill"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Low Risk</span>
+                        <span id="lowRiskCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="lowRiskBar" class="chart-fill low-fill"></div>
+                    </div>
+                </div>
+
+                <p class="chart-note">Based on the verdict assigned to each analyzed email.</p>
+            </div>
+
+            <!-- Risk Score Distribution -->
+            <div class="analytics-card">
+                <div class="analytics-card-heading">
+                    <div>
+                        <h3>Risk Score Distribution</h3>
+                        <p>Emails grouped by their calculated score</p>
+                    </div>
+                    <span class="analytics-icon">◉</span>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>High Risk (60–100)</span>
+                        <span id="criticalCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="criticalBar" class="chart-fill high-fill"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Suspicious (25–59)</span>
+                        <span id="mediumCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="mediumBar" class="chart-fill suspicious-fill"></div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Low Risk (0–24)</span>
+                        <span id="lowCount">0</span>
+                    </div>
+                    <div class="chart-track">
+                        <div id="lowBar" class="chart-fill low-fill"></div>
+                    </div>
+                </div>
+
+                <p class="chart-note">Risk scores are calculated by the PhishGuard detection engine.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Email Analyzer -->
+    <section class="analyzer-section" id="analyzer">
+
+        <div class="section-heading">
+            <h2>Email Threat Analyzer</h2>
+            <p>Upload an email file to scan for phishing indicators.</p>
+        </div>
+
+        <div class="upload-box">
+            <div class="upload-icon">✉</div>
+            <h3>Upload Email for Analysis</h3>
+            <p>Select an email file in .eml format</p>
+
+            <input type="file" id="emailFile" accept=".eml">
+            <button id="analyzeBtn">Analyze Email</button>
+        </div>
+
+    </section>
+
+    <!-- Analysis Results -->
+    <section class="result-section">
+        <h2>Analysis Results</h2>
+
+        <div class="result-card">
+
+            <p class="empty-message" id="emptyMessage">
+                No email analyzed yet. Upload an email to see results.
+            </p>
+
+            <div id="results" hidden>
+
+                <div class="risk-header">
+                    <div>
+                        <p>Risk Score</p>
+                        <h2 id="riskScore">0/100</h2>
+                    </div>
+                    <h3 id="verdict">Pending</h3>
+                </div>
+
+                <div class="risk-track">
+                    <div id="riskBar"></div>
+                </div>
+
+                <div class="details">
+                    <p><strong>Sender:</strong> <span id="sender"></span></p>
+                    <p><strong>Subject:</strong> <span id="subject"></span></p>
+                </div>
+
+                <h3>Threat Indicators</h3>
+                <ul id="indicators"></ul>
+
+                <!-- Email Investigation Details -->
+                <div class="investigation-details">
+
+                    <h3>Email Investigation Details</h3>
+
+                    <h4>Email Body</h4>
+                    <pre id="emailBody">No email content available.</pre>
+
+                    <h4>Extracted URLs</h4>
+                    <ul id="emailUrls"></ul>
+
+                    <h4>Suspicious Keywords</h4>
+                    <ul id="emailKeywords"></ul>
+
+                    <h4>URL Warnings</h4>
+                    <ul id="urlWarnings"></ul>
+
+                    <h4>Sender Warnings</h4>
+                    <ul id="senderWarnings"></ul>
+
+                    <h4>Reply-To Warnings</h4>
+                    <ul id="replyWarnings"></ul>
+
+                    <h4>Email Authentication Results (SPF / DKIM / DMARC)</h4>
+                    <ul id="authChecks"></ul>
+
+                </div>
+
+                <!-- Analyst Recommendations -->
+                <div class="recommendations">
+                    <h3>Analyst Recommendations</h3>
+                    <ul id="recommendationList"></ul>
+                </div>
+
+                <button id="exportReportBtn">Download Investigation Report</button>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis History -->
+    <section id="history" class="history-section">
+
+        <h2>Analysis History</h2>
+        <p>Previously analyzed emails and their security verdicts.</p>
+
+        <div class="history-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sender</th>
+                        <th>Subject</th>
+                        <th>Risk Score</th>
+                        <th>Verdict</th>
+                        <th>Analyzed At</th>
+                    </tr>
+                </thead>
+
+                <tbody id="historyTable">
+                    <tr>
+                        <td colspan="5">No analysis records yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
